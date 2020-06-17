@@ -2,6 +2,7 @@ import {
   fetchData,
   extractPostTitle,
   extractTopAnswersTexts,
+  extractMusicFromAnswer,
 } from "./reddit.ts";
 
 const app = async () => {
@@ -16,7 +17,11 @@ const app = async () => {
     extractTopAnswersTexts(answersRoot),
   ];
 
-  console.log(postTitle, answersTexts);
+  const searchable = answersTexts.map((answer) =>
+    extractMusicFromAnswer(answer)
+  );
+
+  console.log(searchable);
 };
 
 app();

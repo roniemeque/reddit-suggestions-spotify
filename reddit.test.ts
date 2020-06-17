@@ -3,7 +3,9 @@ import {
   extractPostTitle,
   extractTopAnswersTexts,
   filterOutUnwanted,
+  extractMusicFromAnswer,
 } from "./reddit.ts";
+import { lineBreak, link, dot } from "./mocks/answers-texts.ts";
 import { postWithRoot } from "./mocks/post.ts";
 import { answersWithRoot } from "./mocks/answer.ts";
 
@@ -23,4 +25,11 @@ Deno.test("can extract and properly sort answers texts", () => {
     extractTopAnswersTexts(answersWithRoot)[0],
     "Use Me by Bill Withers\n\nEdit: thanks for my first gold kind stranger!"
   );
+});
+
+Deno.test("Can figure out the music to be searched from an answer", () => {
+  assertEquals(extractMusicFromAnswer(lineBreak), "Use Me Bill Withers");
+  assertEquals(extractMusicFromAnswer(dot), "Ripe Stanky");
+  assertEquals(extractMusicFromAnswer(link), "Chameleon Herbie Hancock");
+  assertEquals(extractMusicFromAnswer(lineBreak), "Use Me Bill Withers");
 });

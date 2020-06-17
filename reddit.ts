@@ -36,6 +36,30 @@ export const extractTopAnswersTexts = (commentsListing: IAnswersRootItem) => {
   return textOnly;
 };
 
+export const extractMusicFromAnswer = (answer: string) => {
+  const SPLITTERS = [".", "]", "\n", "is"];
+  const REMOVABLE = ["by"];
+
+  const left = SPLITTERS.reduce(
+    (answer, splitter) => answer.split(splitter)[0],
+    answer
+  );
+
+  const withoutSpecial = left.replace(/[^a-zA-Z0-9 ]/g, "");
+
+  const withoutRemovables = REMOVABLE.reduce(
+    (answer, removable) => answer.replace(removable, ""),
+    withoutSpecial
+  );
+
+  const withoutDoubleSpaces = withoutRemovables
+    .split(" ")
+    .filter((c) => c !== " " && c !== "")
+    .join(" ");
+
+  return withoutDoubleSpaces;
+};
+
 export const fetchData = async (): Promise<
   [IPostRootItem, IAnswersRootItem] | []
 > => {
